@@ -1,0 +1,11 @@
+{
+  "task_id": "tier3-rate-policy",
+  "tier": 3,
+  "attempt": "D:\\Documents\\11Projects\\coding-agent-benchmark\\results\\runs\\claude-code\\tier3-rate-policy\\2\\workspace",
+  "pass": true,
+  "exit_code": 0,
+  "grade_cmd": "node --test \"_grading/**/*.test.js\"",
+  "duration_ms": 145,
+  "output_tail": "TAP version 13\n# Subtest: checkoutQuote applies partner discounts to subtotal only\nok 1 - checkoutQuote applies partner discounts to subtotal only\n  ---\n  duration_ms: 1.5313\n  type: 'test'\n  ...\n# Subtest: renewalPreview uses the same staff policy and supports handling override\nok 2 - renewalPreview uses the same staff policy and supports handling override\n  ---\n  duration_ms: 0.2057\n  type: 'test'\n  ...\n# Subtest: missing policy behaves as standard and invalid override is ignored\nok 3 - missing policy behaves as standard and invalid override is ignored\n  ---\n  duration_ms: 0.1563\n  type: 'test'\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 3\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 79.1178\n",
+  "graded_at": "2026-06-21T05:32:48.665Z"
+}

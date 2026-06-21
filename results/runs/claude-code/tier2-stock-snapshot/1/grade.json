@@ -1,0 +1,11 @@
+{
+  "task_id": "tier2-stock-snapshot",
+  "tier": 2,
+  "attempt": "D:\\Documents\\11Projects\\coding-agent-benchmark\\results\\runs\\claude-code\\tier2-stock-snapshot\\1\\workspace",
+  "pass": true,
+  "exit_code": 0,
+  "grade_cmd": "node --test \"_grading/**/*.test.js\"",
+  "duration_ms": 134,
+  "output_tail": "TAP version 13\n# Subtest: builds sorted summaries with all movement types\nok 1 - builds sorted summaries with all movement types\n  ---\n  duration_ms: 1.5167\n  type: 'test'\n  ...\n# Subtest: ignores zero quantity and does not mutate input records\nok 2 - ignores zero quantity and does not mutate input records\n  ---\n  duration_ms: 0.3108\n  type: 'test'\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 70.8809\n",
+  "graded_at": "2026-06-21T05:32:29.368Z"
+}

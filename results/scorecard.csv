@@ -1,1 +1,7 @@
 task_id,tier,arm,rep,pass,wall_clock_s,input_tokens,output_tokens,cost_usd,turns,interventions,notes
+tier1-check-code,1,claude-code,1,1,152,,,,18,0,claude-code arm via fresh sub-agent; subagent_tokens=36189 (combined); diagnosed repo-root ESM artifact but left workspace unchanged (no package.json)
+tier2-stock-snapshot,2,claude-code,1,1,67,,,,12,0,"claude-code arm via fresh sub-agent; subagent_tokens=32639 (combined in/out, not split); cost not separately metered"
+tier3-rate-policy,3,claude-code,1,1,91,,,,13,0,"claude-code arm via fresh sub-agent; subagent_tokens=34382 (combined); added package.json type:commonjs (repo-root ESM artifact, equal across arms)"
+tier3-rate-policy,3,claude-code,2,1,74,,,,13,0,"claude-code arm via fresh sub-agent; subagent_tokens=32865 (combined); added package.json type:commonjs (repo-root ESM artifact, equal across arms)"
+tier3-rate-policy,3,claude-code,3,1,74,,,,14,0,"claude-code arm via fresh sub-agent; subagent_tokens=33527 (combined); added package.json type:commonjs (repo-root ESM artifact, equal across arms)"
+tier4-cooldown-calendar,4,claude-code,1,1,103,,,,12,0,"claude-code arm via fresh sub-agent; subagent_tokens=35256 (combined); correctly diagnosed all 3 planted bugs (day-blind memo cache, > vs >= clip, zero-cooldown)"
