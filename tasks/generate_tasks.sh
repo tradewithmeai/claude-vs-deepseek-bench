@@ -2,7 +2,7 @@
 set -eu
 mkdir -p tasks
 
-mkdir -p tasks/tier1-check-code/workspace/src tasks/tier1-check-code/grading/hidden_tests
+mkdir -p tasks/tier1-check-code/workspace/src tasks/tier1-check-code/grading/hidden_tests tasks/tier1-check-code/grading/reference/src
 cat > tasks/tier1-check-code/PROMPT.md <<'EOT'
 # Task: Implement `normaliseCheckCode`
 
@@ -38,18 +38,34 @@ function normaliseCheckCode(input) {
 }
 module.exports = { normaliseCheckCode };
 EOT
+cat > tasks/tier1-check-code/grading/reference/src/normaliseCheckCode.js <<'EOT'
+function charValue(ch) {
+  if (/\d/.test(ch)) return Number(ch);
+  return ch.charCodeAt(0) - 55;
+}
+function normaliseCheckCode(input) {
+  if (typeof input !== 'string') return null;
+  const cleaned = input.trim().replace(/[\s._-]+/g, '').toUpperCase();
+  if (!/^[A-Z0-9]{8}$/.test(cleaned)) return null;
+  const weights = [3, 7, 1, 3, 7, 1, 3];
+  let sum = 0;
+  for (let i = 0; i < weights.length; i++) sum += charValue(cleaned[i]) * weights[i];
+  return cleaned[7] === String(sum % 10) ? cleaned : null;
+}
+module.exports = { normaliseCheckCode };
+EOT
 cat > tasks/tier1-check-code/grading/hidden_tests/normaliseCheckCode.test.js <<'EOT'
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { normaliseCheckCode } = require('../src/normaliseCheckCode.js');
-test('normalises separators and validates correct check digits', () => {
-  assert.equal(normaliseCheckCode(' ab-12.cd5 '), 'AB12CD5');
-  assert.equal(normaliseCheckCode('q9_x7_zm5'), 'Q9X7ZM5');
+test('normalises separators and validates correct 8-character check codes', () => {
+  assert.equal(normaliseCheckCode(' ab-12.cd01 '), 'AB12CD01');
+  assert.equal(normaliseCheckCode('q9_x7_zm57'), 'Q9X7ZM57');
 });
 test('rejects bad check digits, bad characters, wrong length, and non-strings', () => {
-  assert.equal(normaliseCheckCode('AB12CD6'), null);
+  assert.equal(normaliseCheckCode('AB12CD02'), null);
   assert.equal(normaliseCheckCode('AB12C@D5'), null);
-  assert.equal(normaliseCheckCode('AB12CD55'), null);
+  assert.equal(normaliseCheckCode('AB12CD5'), null);
   assert.equal(normaliseCheckCode(null), null);
   assert.equal(normaliseCheckCode(12345678), null);
 });
@@ -65,12 +81,12 @@ EOT
 cat > tasks/tier1-check-code/grading/solution_notes.md <<'EOT'
 # Reference solution notes
 
-Check the input type, trim, remove `[ ._-]`, uppercase, validate `/^[A-Z0-9]{8}$/`, map the first seven characters to values, apply weights `[3,7,1,3,7,1,3]`, and compare `String(sum % 10)` with the final character.
+The executable reference solution is in `grading/reference/src/normaliseCheckCode.js`.
 
-The starting workspace was verified to fail the hidden tests. Applying the reference approach makes the hidden tests pass.
+It checks the input type, trims, removes whitespace/dot/underscore/hyphen separators, uppercases, validates `/^[A-Z0-9]{8}$/`, maps the first seven characters to numeric values, applies weights `[3,7,1,3,7,1,3]`, and compares `String(sum % 10)` with the eighth character.
 EOT
 
-mkdir -p tasks/tier2-stock-snapshot/workspace/src tasks/tier2-stock-snapshot/grading/hidden_tests
+mkdir -p tasks/tier2-stock-snapshot/workspace/src tasks/tier2-stock-snapshot/grading/hidden_tests tasks/tier2-stock-snapshot/grading/reference/src
 cat > tasks/tier2-stock-snapshot/PROMPT.md <<'EOT'
 # Task: Fix stock snapshot reporting
 
@@ -123,6 +139,32 @@ function buildStockSnapshot(movements) {
 }
 module.exports = { buildStockSnapshot };
 EOT
+cat > tasks/tier2-stock-snapshot/grading/reference/src/movements.js <<'EOT'
+function applyMovement(current, movement) {
+  if (movement.qty === 0) return current;
+  if (movement.type === 'receive') return current + movement.qty;
+  if (movement.type === 'ship') return current - movement.qty;
+  if (movement.type === 'return') return movement.reason === 'damaged' ? current : current + movement.qty;
+  if (movement.type === 'adjust') return current + movement.qty;
+  return current;
+}
+module.exports = { applyMovement };
+EOT
+cat > tasks/tier2-stock-snapshot/grading/reference/src/report.js <<'EOT'
+const { applyMovement } = require('./movements.js');
+function buildStockSnapshot(movements) {
+  const bySku = new Map();
+  for (const movement of movements) {
+    if (movement.qty === 0) continue;
+    const current = bySku.get(movement.sku) || { sku: movement.sku, onHand: 0, damagedReturns: 0 };
+    if (movement.type === 'return' && movement.reason === 'damaged') current.damagedReturns += movement.qty;
+    current.onHand = applyMovement(current.onHand, movement);
+    bySku.set(movement.sku, current);
+  }
+  return Array.from(bySku.values()).sort((a, b) => a.sku.localeCompare(b.sku));
+}
+module.exports = { buildStockSnapshot };
+EOT
 cat > tasks/tier2-stock-snapshot/grading/hidden_tests/stockSnapshot.test.js <<'EOT'
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -164,12 +206,12 @@ EOT
 cat > tasks/tier2-stock-snapshot/grading/solution_notes.md <<'EOT'
 # Reference solution notes
 
-Initialise each SKU as `{ sku, onHand: 0, damagedReturns: 0 }`; skip zero-quantity movements; damaged returns add only to `damagedReturns`; adjustments add `qty`; final values are sorted by SKU.
+The executable reference solution is in `grading/reference/src/`.
 
-The starting workspace was verified to fail the hidden tests. Applying the reference approach makes the hidden tests pass.
+It initialises each SKU as `{ sku, onHand: 0, damagedReturns: 0 }`; skips zero-quantity movements; adds damaged returns only to `damagedReturns`; applies adjustments directly; and sorts final values by SKU.
 EOT
 
-mkdir -p tasks/tier3-rate-policy/workspace/src tasks/tier3-rate-policy/grading/hidden_tests
+mkdir -p tasks/tier3-rate-policy/workspace/src tasks/tier3-rate-policy/grading/hidden_tests tasks/tier3-rate-policy/grading/reference/src
 cat > tasks/tier3-rate-policy/PROMPT.md <<'EOT'
 # Task: Add centralised rate policy support
 
@@ -235,6 +277,42 @@ function renewalPreview(plan, months) {
 }
 module.exports = { renewalPreview };
 EOT
+cat > tasks/tier3-rate-policy/grading/reference/src/rates.js <<'EOT'
+function itemSubtotal(items) {
+  return items.reduce((sum, item) => sum + item.unitPence * item.qty, 0);
+}
+function handlingForSubtotal(subtotalPence) {
+  if (subtotalPence >= 10000) return 0;
+  if (subtotalPence >= 5000) return 299;
+  return 499;
+}
+function discountRateFor(accountType) {
+  if (accountType === 'partner') return 0.08;
+  if (accountType === 'staff') return 0.20;
+  return 0;
+}
+function calculateRate(items, policy = {}) {
+  const subtotalPence = itemSubtotal(items);
+  const discountPence = Math.floor(subtotalPence * discountRateFor(policy.accountType));
+  const handlingPence = Number.isFinite(policy.handlingOverridePence) ? policy.handlingOverridePence : handlingForSubtotal(subtotalPence);
+  return { subtotalPence, discountPence, handlingPence, totalPence: subtotalPence - discountPence + handlingPence };
+}
+module.exports = { itemSubtotal, handlingForSubtotal, calculateRate };
+EOT
+cat > tasks/tier3-rate-policy/grading/reference/src/checkout.js <<'EOT'
+const { calculateRate } = require('./rates.js');
+function checkoutQuote(items, policy) {
+  return calculateRate(items, policy);
+}
+module.exports = { checkoutQuote };
+EOT
+cat > tasks/tier3-rate-policy/grading/reference/src/renewal.js <<'EOT'
+const { calculateRate } = require('./rates.js');
+function renewalPreview(plan, months, policy) {
+  return { ...calculateRate([{ unitPence: plan.monthlyPence, qty: months }], policy), months };
+}
+module.exports = { renewalPreview };
+EOT
 cat > tasks/tier3-rate-policy/grading/hidden_tests/ratePolicy.test.js <<'EOT'
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -266,12 +344,12 @@ EOT
 cat > tasks/tier3-rate-policy/grading/solution_notes.md <<'EOT'
 # Reference solution notes
 
-Add a `calculateRate(items, policy = {})` helper in `rates.js`. Derive subtotal, choose discount rate from `policy.accountType`, calculate `Math.floor(subtotalPence * rate)`, choose handling from a finite override or `handlingForSubtotal`, and return the four common fields. Both call sites should use it.
+The executable reference solution is in `grading/reference/src/`.
 
-The starting workspace was verified to fail the hidden tests. Applying the reference approach makes the hidden tests pass.
+It adds `calculateRate(items, policy = {})` in `rates.js`. It derives subtotal, chooses discount rate from `policy.accountType`, calculates `Math.floor(subtotalPence * rate)`, chooses handling from a finite override or `handlingForSubtotal`, and returns the four common fields. Both call sites use it.
 EOT
 
-mkdir -p tasks/tier4-cooldown-calendar/workspace/src tasks/tier4-cooldown-calendar/grading/hidden_tests
+mkdir -p tasks/tier4-cooldown-calendar/workspace/src tasks/tier4-cooldown-calendar/grading/hidden_tests tasks/tier4-cooldown-calendar/grading/reference/src
 cat > tasks/tier4-cooldown-calendar/PROMPT.md <<'EOT'
 # Task: Diagnose and fix cooldown calendar blocking
 
@@ -357,6 +435,58 @@ function blockedWindowsForDay(jobs, engineerId, day) {
 }
 module.exports = { blockedWindowsForDay };
 EOT
+cat > tasks/tier4-cooldown-calendar/grading/reference/src/time.js <<'EOT'
+function parseStamp(stamp) {
+  const [date, time] = stamp.split('T');
+  const [year, month, day] = date.split('-').map(Number);
+  const [hour, minute] = time.split(':').map(Number);
+  return { year, month, day, hour, minute };
+}
+function dayIndex(date) {
+  const [year, month, day] = date.split('-').map(Number);
+  return Date.UTC(year, month - 1, day) / 86400000;
+}
+function minuteOffsetFromDay(stamp, day) {
+  const p = parseStamp(stamp);
+  const stampDay = Date.UTC(p.year, p.month - 1, p.day) / 86400000;
+  return (stampDay - dayIndex(day)) * 1440 + p.hour * 60 + p.minute;
+}
+module.exports = { minuteOffsetFromDay };
+EOT
+cat > tasks/tier4-cooldown-calendar/grading/reference/src/windows.js <<'EOT'
+function clipWindow(window) {
+  const startMinute = Math.max(0, window.startMinute);
+  const endMinute = Math.min(1440, window.endMinute);
+  if (startMinute >= endMinute) return null;
+  return { startMinute, endMinute };
+}
+function mergeWindows(windows) {
+  const clipped = windows.map(clipWindow).filter(Boolean).sort((a, b) => a.startMinute - b.startMinute);
+  const merged = [];
+  for (const window of clipped) {
+    const last = merged[merged.length - 1];
+    if (last && window.startMinute <= last.endMinute) last.endMinute = Math.max(last.endMinute, window.endMinute);
+    else merged.push({ ...window });
+  }
+  return merged;
+}
+module.exports = { mergeWindows };
+EOT
+cat > tasks/tier4-cooldown-calendar/grading/reference/src/scheduler.js <<'EOT'
+const { minuteOffsetFromDay } = require('./time.js');
+const { mergeWindows } = require('./windows.js');
+function blockedWindowsForDay(jobs, engineerId, day) {
+  const raw = [];
+  for (const job of jobs) {
+    if (job.engineerId !== engineerId) continue;
+    const startMinute = minuteOffsetFromDay(job.start, day);
+    const endMinute = minuteOffsetFromDay(job.end, day) + (job.cooldownMinutes ?? 15);
+    raw.push({ startMinute, endMinute });
+  }
+  return mergeWindows(raw);
+}
+module.exports = { blockedWindowsForDay };
+EOT
 cat > tasks/tier4-cooldown-calendar/grading/hidden_tests/cooldownCalendar.test.js <<'EOT'
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -391,9 +521,9 @@ EOT
 cat > tasks/tier4-cooldown-calendar/grading/solution_notes.md <<'EOT'
 # Reference solution notes
 
-There are three intended traps. First, `scheduler.js` caches by engineer only, so querying one day poisons later calls for another day. Remove memoisation, or include day and job data in the key and return defensive copies. Second, `job.cooldownMinutes || 15` treats explicit `0` as missing; use `job.cooldownMinutes ?? 15`. Third, `clipWindow` mutates objects and keeps zero-length or fully outside windows because it checks `start > end`; create a new clipped object and reject `start >= end`.
+The executable reference solution is in `grading/reference/src/`.
 
-The starting workspace was verified to fail the hidden tests. Applying the reference approach makes the hidden tests pass.
+There are three intended traps. First, `scheduler.js` caches by engineer only, so querying one day poisons later calls for another day. Remove memoisation, or include day and job data in the key and return defensive copies. Second, `job.cooldownMinutes || 15` treats explicit `0` as missing; use `job.cooldownMinutes ?? 15`. Third, `clipWindow` mutates objects and keeps zero-length or fully outside windows because it checks `start > end`; create a new clipped object and reject `start >= end`.
 EOT
 
 printf '%s\n' 'Generated 4 benchmark tasks under tasks/.'
