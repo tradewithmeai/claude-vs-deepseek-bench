@@ -1,0 +1,12 @@
+{
+  "id": "EXAMPLE-tier1-slugify",
+  "tier": 1,
+  "title": "Implement a URL slugifier (framework self-test, not scored)",
+  "language": "node",
+  "time_cap_min": 10,
+  "turn_cap": 25,
+  "setup_cmd": "",
+  "grade_cmd": "node --test \"_grading/**/*.test.js\"",
+  "public_tests": false,
+  "scored": false
+}

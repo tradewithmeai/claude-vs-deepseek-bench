@@ -1,0 +1,12 @@
+{
+  "name": "coding-agent-benchmark",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A neutral, test-gated benchmark comparing coding agents (Claude Code vs OpenCode+free vs OpenCode+DeepSeek) across graded task tiers. Tasks authored and judged by an independent third party (ChatGPT).",
+  "scripts": {
+    "grade": "node runner/grade.mjs",
+    "record": "node runner/record.mjs",
+    "analyze": "node runner/analyze.mjs"
+  }
+}

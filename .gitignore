@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+
+# secrets — never commit API keys
+.env
+.env.*
+*.key
+
+# transient grading temp dirs
+**/_grading/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# NOTE: results/runs/** ARE committed on purpose — the judge reads them.
