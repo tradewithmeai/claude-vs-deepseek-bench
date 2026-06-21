@@ -1,0 +1,6 @@
+{
+  "_comment": "Pilot matrix. Non-Claude arms first so a Claude usage limit can't block them (PROTOCOL.md §10). Tier 3 gets 3 reps (highest variance); others 1 for the pilot. Add the optional opencode-deepseek-reasoner / opencode-claude arms later.",
+  "arms": ["opencode-free", "opencode-deepseek-chat", "claude-code"],
+  "tasks": ["tier1-check-code", "tier2-stock-snapshot", "tier3-rate-policy", "tier4-cooldown-calendar"],
+  "reps": { "_default": 1, "tier3-rate-policy": 3 }
+}

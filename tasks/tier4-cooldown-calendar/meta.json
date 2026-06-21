@@ -1,0 +1,1 @@
+{"id":"tier4-cooldown-calendar","tier":4,"title":"Diagnose cooldown calendar blocking across days","language":"node","time_cap_min":30,"turn_cap":40,"setup_cmd":"","grade_cmd":"node --test \"_grading/**/*.test.js\"","public_tests":false}

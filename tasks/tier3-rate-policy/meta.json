@@ -1,0 +1,1 @@
+{"id":"tier3-rate-policy","tier":3,"title":"Add centralised account rate policy support","language":"node","time_cap_min":20,"turn_cap":35,"setup_cmd":"","grade_cmd":"node --test \"_grading/**/*.test.js\"","public_tests":false}

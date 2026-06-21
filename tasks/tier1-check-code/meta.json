@@ -1,0 +1,1 @@
+{"id":"tier1-check-code","tier":1,"title":"Implement supplier check-code normalisation","language":"node","time_cap_min":10,"turn_cap":25,"setup_cmd":"","grade_cmd":"node --test \"_grading/**/*.test.js\"","public_tests":false}

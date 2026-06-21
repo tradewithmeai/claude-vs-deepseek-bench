@@ -1,0 +1,1 @@
+{"id":"tier2-stock-snapshot","tier":2,"title":"Fix stock snapshot reporting","language":"node","time_cap_min":15,"turn_cap":30,"setup_cmd":"","grade_cmd":"node --test \"_grading/**/*.test.js\"","public_tests":false}
