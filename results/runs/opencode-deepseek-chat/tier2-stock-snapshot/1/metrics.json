@@ -1,0 +1,14 @@
+{
+  "task_id": "tier2-stock-snapshot",
+  "tier": 2,
+  "arm": "opencode-deepseek-chat",
+  "rep": 1,
+  "wall_clock_s": 89,
+  "input_tokens": 7452,
+  "output_tokens": 5265,
+  "cost_usd": 0.004839,
+  "turns": 28,
+  "interventions": 0,
+  "cap_hit": false,
+  "notes": "opencode arm; model=deepseek/deepseek-chat; total_tokens=415024;"
+}

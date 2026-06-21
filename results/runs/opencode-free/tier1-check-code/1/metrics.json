@@ -1,0 +1,14 @@
+{
+  "task_id": "tier1-check-code",
+  "tier": 1,
+  "arm": "opencode-free",
+  "rep": 1,
+  "wall_clock_s": 145,
+  "input_tokens": 9707,
+  "output_tokens": 3808,
+  "cost_usd": 0,
+  "turns": 19,
+  "interventions": 0,
+  "cap_hit": false,
+  "notes": "opencode arm; model=opencode/big-pickle; total_tokens=327436;"
+}

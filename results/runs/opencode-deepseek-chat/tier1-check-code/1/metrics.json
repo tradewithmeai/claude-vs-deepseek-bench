@@ -1,0 +1,14 @@
+{
+  "task_id": "tier1-check-code",
+  "tier": 1,
+  "arm": "opencode-deepseek-chat",
+  "rep": 1,
+  "wall_clock_s": 100,
+  "input_tokens": 9183,
+  "output_tokens": 3256,
+  "cost_usd": 0.003785,
+  "turns": 15,
+  "interventions": 0,
+  "cap_hit": false,
+  "notes": "opencode arm; model=deepseek/deepseek-chat; total_tokens=221225;"
+}

@@ -1,0 +1,11 @@
+{
+  "task_id": "tier4-cooldown-calendar",
+  "tier": 4,
+  "attempt": "D:\\Documents\\11Projects\\coding-agent-benchmark\\results\\runs\\opencode-deepseek-chat\\tier4-cooldown-calendar\\1\\workspace",
+  "pass": false,
+  "exit_code": 1,
+  "grade_cmd": "node --test \"_grading/**/*.test.js\"",
+  "duration_ms": 143,
+  "output_tail": "  actual:\n    0:\n      startMinute: 0\n      endMinute: 40\n    1:\n      startMinute: 540\n      endMinute: 615\n    2:\n      startMinute: 1440\n      endMinute: 1440\n  operator: 'deepStrictEqual'\n  stack: |-\n    TestContext.<anonymous> (C:\\Users\\richw\\AppData\\Local\\Temp\\cab-grade-ehAy5J\\_grading\\cooldownCalendar.test.js:12:10)\n    Test.runInAsyncScope (node:async_hooks:214:14)\n    Test.run (node:internal/test_runner/test:1047:25)\n    Test.start (node:internal/test_runner/test:944:17)\n    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)\n  ...\n# Subtest: query order must not change results for the same engineer on different days\nok 2 - query order must not change results for the same engineer on different days\n  ---\n  duration_ms: 0.59\n  type: 'test'\n  ...\n# Subtest: excludes zero-length clipped windows and preserves engineer filtering\nok 3 - excludes zero-length clipped windows and preserves engineer filtering\n  ---\n  duration_ms: 0.8484\n  type: 'test'\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 2\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 76.3404\n",
+  "graded_at": "2026-06-21T06:53:49.550Z"
+}

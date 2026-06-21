@@ -1,0 +1,11 @@
+{
+  "task_id": "tier3-rate-policy",
+  "tier": 3,
+  "attempt": "D:\\Documents\\11Projects\\coding-agent-benchmark\\results\\runs\\opencode-free\\tier3-rate-policy\\2\\workspace",
+  "pass": false,
+  "exit_code": 1,
+  "grade_cmd": "node --test \"_grading/**/*.test.js\"",
+  "duration_ms": 141,
+  "output_tail": "  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected:\n    subtotalPence: 12500\n    discountPence: 2500\n    handlingPence: 123\n    totalPence: 10123\n    months: 5\n  actual:\n    subtotalPence: 12500\n    discountPence: 0\n    handlingPence: 0\n    totalPence: 12500\n    months: 5\n  operator: 'deepStrictEqual'\n  stack: |-\n    TestContext.<anonymous> (C:\\Users\\richw\\AppData\\Local\\Temp\\cab-grade-YdBfuK\\_grading\\ratePolicy.test.js:11:10)\n    Test.runInAsyncScope (node:async_hooks:214:14)\n    Test.run (node:internal/test_runner/test:1047:25)\n    Test.processPendingSubtests (node:internal/test_runner/test:744:18)\n    Test.postRun (node:internal/test_runner/test:1173:19)\n    Test.run (node:internal/test_runner/test:1101:12)\n    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)\n  ...\n# Subtest: missing policy behaves as standard and invalid override is ignored\nok 3 - missing policy behaves as standard and invalid override is ignored\n  ---\n  duration_ms: 0.1843\n  type: 'test'\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 1\n# fail 2\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 77.2918\n",
+  "graded_at": "2026-06-21T06:55:13.006Z"
+}

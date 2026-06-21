@@ -5,3 +5,15 @@ tier3-rate-policy,3,claude-code,1,1,91,,,,13,0,"claude-code arm via fresh sub-ag
 tier3-rate-policy,3,claude-code,2,1,74,,,,13,0,"claude-code arm via fresh sub-agent; subagent_tokens=32865 (combined); added package.json type:commonjs (repo-root ESM artifact, equal across arms)"
 tier3-rate-policy,3,claude-code,3,1,74,,,,14,0,"claude-code arm via fresh sub-agent; subagent_tokens=33527 (combined); added package.json type:commonjs (repo-root ESM artifact, equal across arms)"
 tier4-cooldown-calendar,4,claude-code,1,1,103,,,,12,0,"claude-code arm via fresh sub-agent; subagent_tokens=35256 (combined); correctly diagnosed all 3 planted bugs (day-blind memo cache, > vs >= clip, zero-cooldown)"
+tier1-check-code,1,opencode-free,1,1,145,9707,3808,0,19,0,opencode arm; model=opencode/big-pickle; total_tokens=327436;
+tier2-stock-snapshot,2,opencode-free,1,1,40,26789,2057,0,10,0,opencode arm; model=opencode/big-pickle; total_tokens=226798;
+tier3-rate-policy,3,opencode-free,1,1,99,9706,4370,0,26,0,opencode arm; model=opencode/big-pickle; total_tokens=430866;
+tier3-rate-policy,3,opencode-free,2,0,112,9708,5068,0,29,0,opencode arm; model=opencode/big-pickle; total_tokens=458742;
+tier3-rate-policy,3,opencode-free,3,1,108,9705,2426,0,12,0,opencode arm; model=opencode/big-pickle; total_tokens=180975;
+tier4-cooldown-calendar,4,opencode-free,1,0,42,9713,1425,0,9,0,opencode arm; model=opencode/big-pickle; total_tokens=109840;
+tier1-check-code,1,opencode-deepseek-chat,1,1,100,9183,3256,0.003785,15,0,opencode arm; model=deepseek/deepseek-chat; total_tokens=221225;
+tier2-stock-snapshot,2,opencode-deepseek-chat,1,1,89,7452,5265,0.004839,28,0,opencode arm; model=deepseek/deepseek-chat; total_tokens=415024;
+tier3-rate-policy,3,opencode-deepseek-chat,1,1,144,7391,9262,0.006614,37,0,opencode arm; model=deepseek/deepseek-chat; total_tokens=627551;
+tier3-rate-policy,3,opencode-deepseek-chat,2,0,17,7391,943,0.001569,5,0,opencode arm; model=deepseek/deepseek-chat; total_tokens=50031;
+tier3-rate-policy,3,opencode-deepseek-chat,3,1,151,7391,10573,0.008186,43,0,opencode arm; model=deepseek/deepseek-chat; total_tokens=836668;
+tier4-cooldown-calendar,4,opencode-deepseek-chat,1,0,21,7398,1041,0.001694,6,0,opencode arm; model=deepseek/deepseek-chat; total_tokens=62237;

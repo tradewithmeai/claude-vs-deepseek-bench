@@ -1,0 +1,14 @@
+{
+  "task_id": "tier4-cooldown-calendar",
+  "tier": 4,
+  "arm": "opencode-deepseek-chat",
+  "rep": 1,
+  "wall_clock_s": 21,
+  "input_tokens": 7398,
+  "output_tokens": 1041,
+  "cost_usd": 0.001694,
+  "turns": 6,
+  "interventions": 0,
+  "cap_hit": false,
+  "notes": "opencode arm; model=deepseek/deepseek-chat; total_tokens=62237;"
+}

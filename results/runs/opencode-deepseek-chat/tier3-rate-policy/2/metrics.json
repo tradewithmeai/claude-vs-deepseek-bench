@@ -1,0 +1,14 @@
+{
+  "task_id": "tier3-rate-policy",
+  "tier": 3,
+  "arm": "opencode-deepseek-chat",
+  "rep": 2,
+  "wall_clock_s": 17,
+  "input_tokens": 7391,
+  "output_tokens": 943,
+  "cost_usd": 0.001569,
+  "turns": 5,
+  "interventions": 0,
+  "cap_hit": false,
+  "notes": "opencode arm; model=deepseek/deepseek-chat; total_tokens=50031;"
+}

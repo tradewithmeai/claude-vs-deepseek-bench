@@ -1,0 +1,14 @@
+{
+  "task_id": "tier4-cooldown-calendar",
+  "tier": 4,
+  "arm": "opencode-free",
+  "rep": 1,
+  "wall_clock_s": 42,
+  "input_tokens": 9713,
+  "output_tokens": 1425,
+  "cost_usd": 0,
+  "turns": 9,
+  "interventions": 0,
+  "cap_hit": false,
+  "notes": "opencode arm; model=opencode/big-pickle; total_tokens=109840;"
+}

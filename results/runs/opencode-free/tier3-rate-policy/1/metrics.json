@@ -1,0 +1,14 @@
+{
+  "task_id": "tier3-rate-policy",
+  "tier": 3,
+  "arm": "opencode-free",
+  "rep": 1,
+  "wall_clock_s": 99,
+  "input_tokens": 9706,
+  "output_tokens": 4370,
+  "cost_usd": 0,
+  "turns": 26,
+  "interventions": 0,
+  "cap_hit": false,
+  "notes": "opencode arm; model=opencode/big-pickle; total_tokens=430866;"
+}

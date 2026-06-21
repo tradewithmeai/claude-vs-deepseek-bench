@@ -1,0 +1,14 @@
+{
+  "task_id": "tier2-stock-snapshot",
+  "tier": 2,
+  "arm": "opencode-free",
+  "rep": 1,
+  "wall_clock_s": 40,
+  "input_tokens": 26789,
+  "output_tokens": 2057,
+  "cost_usd": 0,
+  "turns": 10,
+  "interventions": 0,
+  "cap_hit": false,
+  "notes": "opencode arm; model=opencode/big-pickle; total_tokens=226798;"
+}
