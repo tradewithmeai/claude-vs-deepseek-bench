@@ -80,3 +80,23 @@ This copies the task's **hidden tests** against the agent's workspace, runs the 
 ## 9. Commit discipline
 
 Commit after authoring tasks, after each batch of runs, and after grading — so ChatGPT (author/judge) always reads a consistent `main`. Keep secrets (API keys) out of every commit.
+
+## 10. Usage-limit resilience (long runs / multiple accounts)
+
+A full run is many attempts and can hit a provider usage limit mid-way. The rule that makes this safe: **every attempt is an atomic, committed checkpoint.** Then a limit can cost at most the single in-flight attempt — never prior work.
+
+1. **Commit per attempt, immediately.** As soon as an attempt finishes: write its `workspace/` + `metrics.json`, run the grader for `grade.json`, then `git add -A && git commit && git push`. Do not batch many attempts before committing.
+2. **Resume with the status tool.** `node runner/status.mjs` reads `results/RUNPLAN.json` and lists DONE vs PENDING (an attempt is DONE when its `metrics.json` is committed). After any interruption, run it and continue from the first pending cell. Re-running a pending cell is safe; a committed cell is never redone.
+3. **Switch accounts only between committed attempts.** Because each attempt is checkpointed, swapping to another Claude account (or pausing) is lossless. Never switch mid-attempt.
+4. **Isolate the usage pools by arm ordering.** Only the `claude-code` arm (and any `opencode-claude` arm) draws on Claude usage. `opencode-deepseek-*` bills DeepSeek; `opencode-free` is free. Run the non-Claude arms first/independently so a Claude limit can't block them, and run the Claude arm in its own pass — if it limits out, switch account and resume only its pending cells via `status.mjs`.
+5. **Keep orchestration cheap.** The operator drives each contestant in that tool's own session; do not have a separate assistant "run the benchmark for you" — that would pile the contestants' token cost onto one account. Verification/analysis here use single cheap scripts, not long autonomous loops.
+
+`results/RUNPLAN.json` shape:
+
+```json
+{
+  "arms": ["opencode-free", "opencode-deepseek-chat", "claude-code"],
+  "tasks": ["tier1-...", "tier2-...", "tier3-...", "tier4-..."],
+  "reps": { "_default": 1, "tier3-...": 3 }
+}
+```

@@ -44,10 +44,13 @@ Produce **{N_PER_TIER} task(s) per tier**, tiers 1–4, all in `{STACK}`. For ea
 
 1. **Anti-contamination:** original, novel code and problems. Do **not** reuse famous OSS files, classic interview questions verbatim, or public benchmark issues. Invent domain details.
 2. **Determinism:** no network, no clocks/randomness in test outcomes, stable across machines.
-3. **Red → green:** the starting `workspace/` MUST FAIL the hidden tests; your `solution_notes.md` solution MUST make them pass. State that you verified this.
-4. **Hidden tests stay hidden:** they live only in `grading/hidden_tests/`, never in `workspace/`. If you also write `public_tests`, keep a separate held-out set in `hidden_tests` that truly scores the run.
-5. **Uniform stack:** every task in `{STACK}`, zero (or minimal, pinned) external dependencies.
-6. **Self-contained:** solvable from `workspace/` + `PROMPT.md` alone.
+3. **Ship a reference solution as CODE** in `grading/reference/` (corrected source files, same relative paths as `workspace/`) — not just prose. This is what proves GREEN.
+4. **Derive every expected test value by executing the reference solution** on the input — never hand-write expected values. For each test case, show the input → reference behaviour → expected output trace in your reply.
+5. **Spec ↔ test consistency:** every literal in a test must satisfy *every* rule in `PROMPT.md`; name the rule each test exercises. No rule may contradict any test. (This is the #1 source of drift — e.g. a "must be 8 characters" rule with 7-character test inputs.)
+6. **Mechanical RED→GREEN gate:** each task must make `node runner/verify-task.mjs --task tasks/<id>` print `OK` (starting `workspace/` fails hidden tests; `workspace/` + `grading/reference/` passes them). The operator runs `verify-task.mjs --all`; author claims of "verified" are ignored.
+7. **Hidden tests stay hidden:** only in `grading/hidden_tests/`, never in `workspace/`. Optional `public_tests` is separate.
+8. **Uniform, declared stack:** every task in `{STACK}`, zero/minimal pinned deps. Keep the module system consistent (don't mix CommonJS and `"type":"module"`).
+9. **Self-contained:** solvable from `workspace/` + `PROMPT.md` alone.
 
 ## Step 3 — Deliver
 

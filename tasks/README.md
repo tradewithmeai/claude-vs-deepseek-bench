@@ -11,10 +11,22 @@ tasks/<task_id>/
   workspace/           # the code the agent edits. A clean, runnable starting state. GIVEN to the agent.
   grading/             # JUDGE-ONLY. Never shown to the agent.
     hidden_tests/      # deterministic tests that decide pass/fail. Authoritative.
+    reference/         # REQUIRED. The correct source files (same relative paths as workspace/).
+                       #   Overlaying these on workspace/ MUST make hidden_tests pass. Enables mechanical GREEN proof.
     public_tests/      # (optional) acceptance tests the agent MAY be shown as part of the spec.
     rubric.md          # 0–3 quality rubric for the judge (secondary metric).
-    solution_notes.md  # reference solution + what "correct" looks like. Must pass hidden_tests.
+    solution_notes.md  # prose explanation of the fix (companion to grading/reference/).
 ```
+
+## Anti-drift requirements (MANDATORY — these are how tasks get rejected)
+
+The benchmark is worthless if `PROMPT.md` and the hidden tests disagree. An author that hand-writes expected test values without executing them WILL drift. To prevent it:
+
+1. **Ship a real reference solution as code** in `grading/reference/`, not just prose. Prose cannot be executed; code can.
+2. **Every expected value in a test must be derivable by running `grading/reference/`** on that input. Do not invent expected values — compute them from the reference behaviour.
+3. **Spec ↔ test consistency invariant:** every literal used in the tests must satisfy *every* rule stated in `PROMPT.md`. (Real failure caught in review: a spec said "exactly 8 characters" while the test's valid inputs were 8→7 chars after cleaning and the "wrong length" case was 8 chars — mutually contradictory.) For each test case, the author must be able to point to the rule(s) it exercises.
+4. **Mechanical RED→GREEN gate:** the task is only accepted if `node runner/verify-task.mjs --task tasks/<id>` reports `OK` — i.e. the starting `workspace/` fails the hidden tests (RED) and `workspace/` + `grading/reference/` passes them (GREEN). Author claims of "verified" are ignored; only this command counts.
+5. **One language, declared runtime:** keep all tasks in the same stack. If using CommonJS (`require`/`module.exports`), do not also add a `package.json` with `"type":"module"` (and vice-versa) — the hidden tests must load the workspace under the same module system the stub uses.
 
 ## The public / hidden test rule
 
