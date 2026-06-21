@@ -20,13 +20,17 @@ Everything lives on `main` of a public GitHub repo so ChatGPT can read the whole
 
 ## The arms (conditions compared)
 
-| Arm id | Stack | Cost |
-|---|---|---|
-| `claude-code` | Claude Code (reference) | paid |
-| `opencode-free` | OpenCode + free model | $0 |
-| `opencode-deepseek-chat` | OpenCode + `deepseek/deepseek-chat` | cheap |
-| `opencode-deepseek-reasoner` | OpenCode + `deepseek/deepseek-reasoner` (optional) | cheap+ |
-| `opencode-claude` | OpenCode + Claude via API key (**optional isolation arm**) | paid |
+All OpenCode arms use the **official** OpenCode (`sst/opencode`, npm `opencode-ai`) — **not** the meme fork — so the catalog and harness are stock. Select the model per run with `opencode run --model <id> "<prompt>"` or `/models` in the TUI.
+
+| Arm id | Stack | OpenCode model id | Cost |
+|---|---|---|---|
+| `claude-code` | Claude Code (reference) | — | paid |
+| `opencode-free` | OpenCode + free model | `opencode/deepseek-v4-flash-free` | $0 |
+| `opencode-deepseek-chat` | OpenCode + DeepSeek (paid) | `deepseek/deepseek-chat` | cheap |
+| `opencode-deepseek-reasoner` | OpenCode + DeepSeek reasoner (optional) | `deepseek/deepseek-reasoner` | cheap+ |
+| `opencode-claude` | OpenCode + Claude via API key (**optional isolation arm**) | `anthropic/claude-*` | paid |
+
+Pick **one** free model for the `opencode-free` arm and keep it fixed across all runs. Other free options in the catalog: `opencode/mimo-v2.5-free`, `opencode/north-mini-code-free`, `opencode/nemotron-3-ultra-free`. Credentials: `opencode auth login` → DeepSeek (paste key) for the paid arm; `opencode auth login` → opencode for the free gateway models.
 
 > **Confound note:** `claude-code` vs `opencode-*` mixes *harness* and *model*. The optional `opencode-claude` arm isolates the harness: comparing it to `claude-code` shows the harness gap; comparing it to `opencode-deepseek-*` shows the model gap. Without it, this is a **product** comparison (still valid), not a clean *model* comparison.
 
